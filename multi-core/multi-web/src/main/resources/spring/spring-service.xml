@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.3.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+
+  <!--扫描service下的包-->
+  <context:component-scan base-package="com.wq.service"/>
+
+  <!--&lt;!&ndash;将所有的业务类注入到Spring，可以通过配置或注解实现&ndash;&gt;-->
+  <!--&lt;!&ndash;<bean id="blogService" class="com.wq.service.impl.BlogServiceImpl">&ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="blogMapper" ref="blogMapper"/>&ndash;&gt;-->
+  <!--&lt;!&ndash;</bean>&ndash;&gt;-->
+
+  <!--&lt;!&ndash;&lt;!&ndash;3.声明式事务&ndash;&gt;&ndash;&gt;-->
+  <!--&lt;!&ndash;<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">&ndash;&gt;-->
+    <!--&lt;!&ndash;<property name="dataSource" ref="dataSource"></property>&ndash;&gt;-->
+  <!--&lt;!&ndash;</bean>&ndash;&gt;-->
+  <!--&lt;!&ndash;声明service层可以使用@Transaction注解，指定txManager事务&ndash;&gt;-->
+  <!--<tx:annotation-driven transaction-manager="txManager"/>-->
+  <!--4.aop横切事务-->
+  <!-- 切面类 -->
+  <bean id="logger" class="com.wq.log.Log"></bean>
+
+  <!-- 切面配置 -->
+  <aop:config>
+    <!-- 切面 -->
+    <aop:aspect ref="logger">
+      <!-- 切入点 -->
+      <!-- 指定方法、返回值、参数个数和类型 -->
+      <!-- <aop:pointcut expression="execution(public void com.cp.service.impl.UserServiceImpl.save(com.fengqing.bean.User))" id="savePointcut"/> -->
+      <!-- 指定方法、返回值、参数个数,类型任意 -->
+      <!-- <aop:pointcut expression="execution(public void com.cp.service.impl.UserServiceImpl.save(*))" id="savePointcut"/> -->
+      <!-- 指定方法、返回值,参数个数和类型任意 -->
+      <!-- <aop:pointcut expression="execution(public void com.cp.service.impl.UserServiceImpl.save(..))" id="savePointcut"/> -->
+      <!-- 指定返回值,方法、参数个数和类型任意 -->
+      <!-- <aop:pointcut expression="execution(public void com.cp.service.impl.UserServiceImpl.*(..))" id="savePointcut"/> -->
+      <!-- 指定返回值,impl下的类及其子包的类里的所有方法 -->
+      <!-- <aop:pointcut expression="execution(public void com.cp.service.impl.*.*(..))" id="savePointcut"/> -->
+      <!-- 指定返回值,service下的类及其子包的类里的所有方法 -->
+      <!-- <aop:pointcut expression="execution(public void com.cp.service..*.*(..))" id="savePointcut"/> -->
+      <!-- service下的类及其子包的类里的所有方法,所有返回类型 -->
+      <aop:pointcut expression="execution(public * com.wq.service..*.*(..))" id="savePointcut"/>
+
+      <!-- 增强 -->
+      <!-- 前置增强 -->
+      <!-- <aop:before method="before" pointcut-ref="savePointcut"/> -->
+      <!-- 后置增强 -->
+      <!-- <aop:after-returning method="afterReturning" pointcut-ref="savePointcut"/> -->
+      <!-- 异常增强 -->
+      <!-- <aop:after-throwing method="afterThrowring" pointcut-ref="savePointcut"/> -->
+      <!-- 最终增强 -->
+      <!-- <aop:after method="after" pointcut-ref="savePointcut"/> -->
+      <!-- 环绕增强 -->
+      <aop:around method="around" pointcut-ref="savePointcut"/>
+    </aop:aspect>
+  </aop:config>
+
+</beans>
