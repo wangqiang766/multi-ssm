@@ -6,6 +6,6 @@
   <!--配置数据源，交给Spring-->
   <!--实体类取别名-->
   <typeAliases>
-    <package name="com.wq.mapper"/>
+    <package name="com.wq.entity"/>
   </typeAliases>
 </configuration>

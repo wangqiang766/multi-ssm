@@ -62,7 +62,7 @@
       <!-- 最终增强 -->
       <!-- <aop:after method="after" pointcut-ref="savePointcut"/> -->
       <!-- 环绕增强 -->
-      <aop:around method="around" pointcut-ref="savePointcut"/>
+      <!--<aop:around method="around" pointcut-ref="savePointcut"/>-->
     </aop:aspect>
   </aop:config>
 

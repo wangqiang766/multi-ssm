@@ -11,7 +11,13 @@
         https://www.springframework.org/schema/context/spring-context.xsd">
 
   <!--1.注解驱动-->
-  <mvc:annotation-driven/>
+  <mvc:annotation-driven>
+    <!-- 解决请求返回问题 springmvc无法将对象直接转换为json对象 -->
+    <mvc:message-converters>
+      <bean class="org.springframework.http.converter.StringHttpMessageConverter"/>
+      <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+    </mvc:message-converters>
+  </mvc:annotation-driven>
   <!--2.静态资源过滤-->
   <mvc:default-servlet-handler/>
   <!--3.扫描包:controller-->
